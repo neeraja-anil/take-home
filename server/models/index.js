@@ -44,7 +44,7 @@ db.todos = TodoModel(sequelize, DataTypes);
 db.users = UserModel(sequelize, DataTypes);
 
 db.sequelize.sync({ alter: false }).then(() => {
-  console.log("Re-sync db");
+  // console.log("Re-sync db");
 });
 
 export default db;
