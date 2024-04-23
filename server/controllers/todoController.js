@@ -5,7 +5,7 @@ const Todo = db.todos;
 //@desc CREATE NEW TODO
 //@route POST /api/todo/create
 //@access private
-const addTodo = async (req, res) => {
+const addTodo = async (req, res, next) => {
   const { name, projectId, description, status } = req.body;
   const data = {
     name,
@@ -18,15 +18,14 @@ const addTodo = async (req, res) => {
     const todo = await Todo.create(data);
     res.json(todo);
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
-    console.log({ error });
+    next(error);
   }
 };
 
 //@desc UPDATE TODO
 //@route POST /api/todo/id
 //@access private
-const updateTodo = async (req, res) => {
+const updateTodo = async (req, res, next) => {
   const { id } = req.params;
   const { name, status, description } = req.body;
 
@@ -41,26 +40,26 @@ const updateTodo = async (req, res) => {
       res.status(500).json({ error: "Todo Not Fouond" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error", error });
+    next(error);
   }
 };
 
 //@desc GET ALL TODO
 //@route POST /api/todos/list
 //@access private
-const getAllTodos = async (req, res) => {
+const getAllTodos = async (req, res, next) => {
   try {
     const todos = await Todo.findAll();
     res.json(todos);
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 };
 
 //@desc DELETE TODO
 //@route POST /api/todo/id
 //@access private
-const deleteTodo = async (req, res) => {
+const deleteTodo = async (req, res, next) => {
   const { id } = req.params;
   try {
     const todo = await Todo.destroy({ where: { id } });
@@ -70,7 +69,7 @@ const deleteTodo = async (req, res) => {
       res.status(404).json({ error: "Todo Not Found" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 };
 

@@ -6,7 +6,7 @@ const User = db.users;
 //@desc   Auth user & get token
 //@route  POST /api/users/login
 //@access public
-const authUser = async (req, res) => {
+const authUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -23,33 +23,14 @@ const authUser = async (req, res) => {
       res.status(404).json({ error: "Invalid email or password" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 };
-
-// //@desc   Get user profile
-// //@route  POST /api/users/profile
-// //@access private
-// const getUserProfile = asyncHandler(async (req, res) => {
-//   const user = await User.findById(req.user._id);
-
-//   if (user) {
-//     res.json({
-//       _id: user._id,
-//       name: user.name,
-//       email: user.email,
-//       isAdmin: user.isAdmin,
-//     });
-//   } else {
-//     res.status(404);
-//     throw new Error("User not found");
-//   }
-// });
 
 //@desc   Register new user
 //@route  POST /api/users
 //@access public
-const registerNewUser = async (req, res) => {
+const registerNewUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
@@ -75,22 +56,8 @@ const registerNewUser = async (req, res) => {
       throw new Error("Invalid user data");
     }
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 };
-
-// //@desc   Delete users admin only
-// //@route  DELETE /api/users/:id
-// //@access private/Admin
-// const deleteUsers = asyncHandler(async (req, res) => {
-//   const user = await User.findById(req.params.id);
-//   if (user) {
-//     await user.deleteOne();
-//     res.json({ message: " User removed" });
-//   } else {
-//     res.status(404);
-//     throw new Error("User not found");
-//   }
-// });
 
 export { authUser, registerNewUser };

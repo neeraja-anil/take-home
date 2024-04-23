@@ -1,24 +1,22 @@
 import express from "express";
-const app = express();
 import cors from "cors";
-const PORT = 5000;
 import db from "./models/index.js";
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 import ProjectRoutes from "./routes/projectRoutes.js";
 import TodoRoutes from "./routes/todoRoutes.js";
 import UserRoutes from "./routes/userRoutes.js";
 
+const PORT = 5000;
+const app = express();
+
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-app.get("/api/home", (req, res) => {
-  res.send("api running...");
-});
 app.use("/api/projects", ProjectRoutes);
 app.use("/api/users", UserRoutes);
 app.use("/api/todos", TodoRoutes);
 
-// error handlers
 app.use(notFound);
 app.use(errorHandler);
 

@@ -5,20 +5,20 @@ const Project = db.projects;
 //@desc CREATE NEW PROJECT
 //@route POST /api/project/create
 //@access private
-const addProject = async (req, res) => {
+const addProject = async (req, res, next) => {
   const { name, userId } = req.body;
   try {
     const project = await Project.create({ name, user_id: userId });
     res.json(project);
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 };
 
 //@desc UPDATE PROJECT
 //@route POST /api/project/id
 //@access private
-const updateProject = async (req, res) => {
+const updateProject = async (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
 
@@ -33,31 +33,31 @@ const updateProject = async (req, res) => {
       res.status(500).json({ error: "Project Not Fouond" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error", error });
+    next(error);
   }
 };
 
 //@desc GET ALL PROJECT
 //@route POST /api/projects/list
 //@access private
-const getAllProjects = async (req, res) => {
-  const { userId } = req.params; // Assuming userId is passed as a parameter in the request
+const getAllProjects = async (req, res, next) => {
+  const { userId } = req.params;
 
   try {
     const projects = await Project.findAll({
-      where: { user_id: userId }, // Filter projects by userId
+      where: { user_id: userId },
       include: [{ model: db.todos, as: "todos" }],
     });
     res.json(projects);
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 };
 
 //@desc GET SINGLE PROJECT
 //@route POST /api/project/id
 //@access private
-const getProject = async (req, res) => {
+const getProject = async (req, res, next) => {
   const { id } = req.params;
   try {
     const project = await Project.findByPk(id, {
@@ -70,14 +70,14 @@ const getProject = async (req, res) => {
       res.status(404).json({ error: "Project Not Found" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 };
 
 //@desc DELETE PROJECT
 //@route POST /api/project/id
 //@access private
-const deleteProject = async (req, res) => {
+const deleteProject = async (req, res, next) => {
   const { id } = req.params;
   try {
     const project = await Project.destroy({ where: { project_id: id } });
@@ -87,7 +87,7 @@ const deleteProject = async (req, res) => {
       res.status(404).json({ error: "Project Not Found" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Internal Server Error" });
+    next(error);
   }
 };
 
