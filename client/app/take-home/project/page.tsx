@@ -8,11 +8,16 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [list, setList] = useState<any[]>([]);
+  const [user, setUser] = useState<any>();
+
+  useEffect(() => {
+    const userString: string | null = localStorage.getItem("user");
+    const user = userString ? JSON.parse(userString) : null;
+    setUser(user);
+  }, []);
 
   const getProjects = async () => {
     try {
-      const userString: string | null = localStorage.getItem("user");
-      const user = userString ? JSON.parse(userString) : null;
       const response = await api.get(`/projects/list/${user.id}`, {
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +43,11 @@ export default function Home() {
     <div className="flex flex-col">
       <WelcomeBanner />
       <div className="flex justify-between mt-6">
-        {isPending ? <div>Loading...</div> : <ProjectList list={list} />}
+        {isPending ? (
+          <div> Projects Loading...</div>
+        ) : (
+          <ProjectList list={list} />
+        )}
       </div>
     </div>
   );

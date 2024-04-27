@@ -27,12 +27,12 @@ const SideBar = ({ toggleProjectForm }: any) => {
       label: "My Projects",
       className: "bg-yellow-500 bg-opacity-75 text-white",
     },
-    {
-      name: "profile",
-      icon: <User size={18} />,
-      label: "Profile",
-      className: "bg-yellow-500 bg-opacity-75 text-white",
-    },
+    // {
+    //   name: "profile",
+    //   icon: <User size={18} />,
+    //   label: "Profile",
+    //   className: "bg-yellow-500 bg-opacity-75 text-white",
+    // },
   ];
 
   const onMenuItemClick = (menu: string) => {

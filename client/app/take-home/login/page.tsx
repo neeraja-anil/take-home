@@ -57,7 +57,11 @@ export default function LoginPage() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={onSubmit}>
+          <form
+            className="space-y-6"
+            onSubmit={onSubmit}
+            // data-testid="signup-form"
+          >
             <div>
               <label
                 htmlFor="email"
@@ -70,6 +74,7 @@ export default function LoginPage() {
                   id="email"
                   name="email"
                   type="email"
+                  placeholder="Email address"
                   autoComplete="email"
                   value={formData?.email || ""}
                   onChange={onValuesChange}
@@ -93,6 +98,7 @@ export default function LoginPage() {
                   id="password"
                   name="password"
                   type="password"
+                  placeholder="Password"
                   autoComplete="current-password"
                   required
                   value={formData?.password || ""}
@@ -106,12 +112,12 @@ export default function LoginPage() {
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                data-testid="signup-form"
               >
-                Sign in
+                {loginMutation?.isPending ? "Signing in..." : "Sign in"}
               </button>
             </div>
           </form>
-
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{" "}
             <div

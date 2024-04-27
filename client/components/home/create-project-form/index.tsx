@@ -51,7 +51,6 @@ const ProjectForm = ({ toggleProjectForm }: { toggleProjectForm: any }) => {
   const onFinish = (e: any) => {
     e.preventDefault();
     mutation.mutate(formData);
-    router.push(ROUTES.PROJECT.replace("[project]", formData.name));
     toggleProjectForm();
   };
   return (
