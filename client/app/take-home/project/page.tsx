@@ -8,16 +8,11 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [list, setList] = useState<any[]>([]);
-  const [user, setUser] = useState<any>();
-
-  useEffect(() => {
-    const userString: string | null = localStorage.getItem("user");
-    const user = userString ? JSON.parse(userString) : null;
-    setUser(user);
-  }, []);
 
   const getProjects = async () => {
     try {
+      const userString: string | null = localStorage.getItem("user");
+      const user = userString ? JSON.parse(userString) : null;
       const response = await api.get(`/projects/list/${user.id}`, {
         headers: {
           "Content-Type": "application/json",
