@@ -15,7 +15,7 @@ export default function ProjectCard({ project, onCardClick }: any) {
   const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
 
   const todoMutation = useMutation({
-    mutationFn: (formData) => handleAddTodo(formData, project?.project_id),
+    mutationFn: (formData) => handleAddTodo(formData, project?.id),
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["project"] });
@@ -30,7 +30,7 @@ export default function ProjectCard({ project, onCardClick }: any) {
   });
 
   const deleteProjectMutation = useMutation({
-    mutationFn: () => handleDeleteProject(project.project_id),
+    mutationFn: () => handleDeleteProject(project.id),
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["projects"] });
@@ -44,7 +44,7 @@ export default function ProjectCard({ project, onCardClick }: any) {
   });
 
   const onClick = () => {
-    onCardClick?.(project.project_id);
+    onCardClick?.(project.id);
   };
 
   const toggleAddTodo = () => {
@@ -144,7 +144,7 @@ export default function ProjectCard({ project, onCardClick }: any) {
       >
         <AddTodo
           toggleTodoForm={toggleAddTodo}
-          projectId={project?.project_id}
+          projectId={project?.id}
           onSubmit={onAddTodo}
         />
       </Modal>

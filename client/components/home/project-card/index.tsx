@@ -12,12 +12,8 @@ export default function ProjectList({ list }: any) {
   return (
     <div className="flex ">
       {list?.map((item: any) => (
-        <div key={item.project_id} className="mr-4">
-          <ProjectCard
-            project={item}
-            key={item.project_id}
-            onCardClick={onCardClick}
-          />
+        <div key={item?.id} className="mr-4">
+          <ProjectCard project={item} key={item.id} onCardClick={onCardClick} />
         </div>
       ))}
     </div>

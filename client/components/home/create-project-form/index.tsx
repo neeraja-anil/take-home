@@ -31,7 +31,7 @@ const ProjectForm = ({ toggleProjectForm }: { toggleProjectForm: any }) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["create"] });
       if ({ data }) {
-        router.push(ROUTES.PROJECT.replace("[project]", data.project_id));
+        router.push(ROUTES.PROJECT.replace("[project]", data.id));
       }
     },
     onError: (error: any) => {

@@ -81,9 +81,10 @@ const getProject = async (req, res, next) => {
 const deleteProject = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const deletedProject = await Project.findByIdAndDelete(id);
+    const project = await Project.findById(id);
 
-    if (deletedProject) {
+    if (project) {
+      await project.deleteOne();
       res.status(200).json({ message: "Project Deleted" });
     } else {
       res.status(404).json({ error: "Project Not Found" });
