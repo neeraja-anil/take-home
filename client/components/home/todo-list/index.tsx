@@ -1,14 +1,13 @@
 import React from "react";
 import Todos from "./todos";
 
-const TodoList = ({ project }: { project: any }) => {
-  const pendingTodos = project?.todos?.filter(
-    (todo: any) => todo?.status === "PENDING"
-  );
-  const completedTodos = project?.todos?.filter(
-    (todo: any) => todo.status === "COMPLETED"
-  );
-
+const TodoList = ({
+  completedTodos,
+  pendingTodos,
+}: {
+  completedTodos: any;
+  pendingTodos: any;
+}) => {
   return (
     <div className="w-full flex space-x-24 mt-6">
       <div className="w-full flex flex-col">

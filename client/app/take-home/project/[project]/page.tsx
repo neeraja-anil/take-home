@@ -25,6 +25,8 @@ const ProjectDetails = () => {
   const [project, setProject] = useState<any>({});
   const [projectName, setProjectName] = useState<string>("Project Name");
   const [showAddTodo, setShowAddTodo] = useState<boolean>(false);
+  const [completedTodos, setCompletedTodos] = useState<any>([]);
+  const [pendingTodos, setPendingTodos] = useState<any>([]);
 
   const mutation = useMutation({
     mutationFn: () =>
@@ -50,6 +52,12 @@ const ProjectDetails = () => {
   useEffect(() => {
     setProject(data);
     setProjectName(data?.name);
+    setCompletedTodos(
+      data?.todos?.filter((todo: any) => todo?.status === "COMPLETED")
+    );
+    setPendingTodos(
+      data?.todos?.filter((todo: any) => todo?.status === "PENDING")
+    );
   }, [data]);
 
   const toggleAddTodo = () => {
@@ -90,10 +98,12 @@ const ProjectDetails = () => {
         projectName={projectName}
         setIsEditing={setIsEditing}
         isEditing={isEditing}
+        completedTodos={completedTodos}
+        pendingTodos={pendingTodos}
       />
 
       {/* todo list */}
-      <TodoList project={project} />
+      <TodoList completedTodos={completedTodos} pendingTodos={pendingTodos} />
       <Modal
         title="Add Todo"
         open={showAddTodo}

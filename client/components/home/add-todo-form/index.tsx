@@ -64,6 +64,7 @@ const AddTodo = ({
           <div className="flex justify-end">
             <button
               type="submit"
+              data-testid="add-todo-submit"
               className="w-50 bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-yellow-700"
             >
               {todoId ? "Update Todo" : "Add Todo"}

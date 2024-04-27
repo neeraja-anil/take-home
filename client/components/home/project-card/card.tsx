@@ -81,6 +81,7 @@ export default function ProjectCard({ project, onCardClick }: any) {
           className="text-red-400 hover:text-red-500"
           size={18}
           onClick={onDeleteProject}
+          data-testid="delete-project"
         />
       </div>
 
