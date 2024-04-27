@@ -1,8 +1,6 @@
 import jwt from "jsonwebtoken";
-import db from "../models/index.js";
 import { JWT_SECRET } from "../utils/jwt.js";
-
-const User = db.users;
+import User from "../models/userModel.js";
 
 const protect = async (req, res, next) => {
   let token;

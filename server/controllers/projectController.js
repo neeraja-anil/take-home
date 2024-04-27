@@ -1,6 +1,4 @@
-import db from "../models/index.js";
-
-const Project = db.projects;
+import Project from "../models/projectModel.js";
 
 //@desc CREATE NEW PROJECT
 //@route POST /api/project/create

@@ -1,6 +1,4 @@
-import db from "../models/index.js";
-
-const Todo = db.todos;
+import Todo from "../models/todoModel.js";
 
 //@desc CREATE NEW TODO
 //@route POST /api/todo/create

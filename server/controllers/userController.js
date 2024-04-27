@@ -1,7 +1,6 @@
-import db from "../models/index.js";
+// import db from "../models/index.js";
 import generateToken from "../utils/jwt.js";
-
-const User = db.users;
+import User from "../models/userModel.js";
 
 //@desc   Auth user & get token
 //@route  POST /api/users/login
@@ -48,7 +47,6 @@ const registerNewUser = async (req, res, next) => {
         id: user.user_id,
         name: user.name,
         email: user.email,
-        isAdmin: user.isAdmin,
         token: generateToken(user.user_id),
       });
     } else {
