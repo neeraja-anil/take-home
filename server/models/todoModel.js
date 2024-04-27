@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 import { Schema } from "mongoose";
+import Project from "./projectModel.js";
 
 const todoSchema = new Schema(
   {
     project_id: {
       type: Schema.Types.ObjectId,
-      ref: "Project", // Assuming there's a Project model
+      ref: "Project",
       required: true,
     },
     name: {
@@ -22,7 +23,13 @@ const todoSchema = new Schema(
     },
   },
   {
-    timestamps: true, // Adds createdAt and updatedAt fields
+    toJSON: {
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+      },
+    },
+    timestamps: true,
   }
 );
 

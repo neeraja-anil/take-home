@@ -9,11 +9,13 @@ const authUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ where: { email } });
+    const user = await User.findOne({ email: email });
 
-    if (user && (await user.validPassword(password))) {
-      res.json({
-        id: user.user_id,
+    console.log({ user });
+
+    if (user && (await user.matchPassword(password))) {
+      res.status(201).json({
+        id: user.id,
         name: user.name,
         email: user.email,
         token: generateToken(user.user_id),
@@ -33,7 +35,7 @@ const registerNewUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
-    const userExist = await User.findOne({ where: { email } });
+    const userExist = await User.findOne({ email: email });
 
     if (userExist) {
       res.status(400);
@@ -44,7 +46,7 @@ const registerNewUser = async (req, res, next) => {
 
     if (user) {
       res.status(201).json({
-        id: user.user_id,
+        id: user.user._id,
         name: user.name,
         email: user.email,
         token: generateToken(user.user_id),
