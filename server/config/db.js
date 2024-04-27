@@ -1,11 +1,17 @@
-export const HOST = "localhost";
-export const USER = "root";
-export const PASSWORD = "Neerajap@2001";
-export const DB = "take_home";
-export const dialect = "mysql";
-export const pool = {
-  max: 5,
-  min: 0,
-  acquire: 30000,
-  idle: 10000,
+import mongoose from "mongoose";
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+    });
+
+    console.log(`mongodb connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(`error : ${error.message}`);
+    process.exit(1);
+  }
 };
+
+export default connectDB;

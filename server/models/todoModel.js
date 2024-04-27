@@ -1,27 +1,38 @@
-export default (sequelize, DataTypes) => {
-  const Todo = sequelize.define("todos", {
-    id: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-      primaryKey: true,
-    },
+import mongoose from "mongoose";
+import { Schema } from "mongoose";
+import Project from "./projectModel.js";
+
+const todoSchema = new Schema(
+  {
     project_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
+      type: Schema.Types.ObjectId,
+      ref: "Project",
+      required: true,
     },
     name: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: String,
+      required: true,
     },
     description: {
-      type: DataTypes.STRING,
-      allowNull: true,
+      type: String,
+      default: "",
     },
     status: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: String,
+      required: true,
     },
-  });
-  return Todo;
-};
+  },
+  {
+    toJSON: {
+      transform(doc, ret) {
+        ret.id = ret._id;
+        delete ret._id;
+      },
+    },
+    timestamps: true,
+  }
+);
+
+const Todo = mongoose.model("Todo", todoSchema);
+
+export default Todo;

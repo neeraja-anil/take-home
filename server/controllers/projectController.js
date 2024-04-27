@@ -1,6 +1,4 @@
-import db from "../models/index.js";
-
-const Project = db.projects;
+import Project from "../models/projectModel.js";
 
 //@desc CREATE NEW PROJECT
 //@route POST /api/project/create
@@ -14,23 +12,24 @@ const addProject = async (req, res, next) => {
     next(error);
   }
 };
-
 //@desc UPDATE PROJECT
-//@route POST /api/project/id
+//@route POST /api/project/:id
 //@access private
 const updateProject = async (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
 
   try {
-    const [row, updatedProject] = await Project.update(
+    const updatedProject = await Project.findByIdAndUpdate(
+      id,
       { name },
-      { where: { project_id: id }, returning: true }
+      { new: true }
     );
-    if (updatedProject && updatedProject !== 0) {
+
+    if (updatedProject) {
       res.status(200).json({ message: "Project Name Updated" });
     } else {
-      res.status(500).json({ error: "Project Not Fouond" });
+      res.status(404).json({ error: "Project Not Found" });
     }
   } catch (error) {
     next(error);
@@ -43,11 +42,13 @@ const updateProject = async (req, res, next) => {
 const getAllProjects = async (req, res, next) => {
   const { userId } = req.params;
 
+  if (!userId) {
+    res.status(400);
+    throw new Error("User Id Not Found");
+  }
+
   try {
-    const projects = await Project.findAll({
-      where: { user_id: userId },
-      include: [{ model: db.todos, as: "todos" }],
-    });
+    const projects = await Project.find({ user_id: userId }).populate("todos");
     res.json(projects);
   } catch (error) {
     next(error);
@@ -55,14 +56,14 @@ const getAllProjects = async (req, res, next) => {
 };
 
 //@desc GET SINGLE PROJECT
-//@route POST /api/project/id
+//@route POST /api/projects/:id
 //@access private
 const getProject = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const project = await Project.findByPk(id, {
-      include: [{ model: db.todos, as: "todos" }],
-    });
+    const project = await Project.findById(id).populate("todos");
+
+    console.log({ project });
 
     if (project) {
       res.status(200).json(project);
@@ -75,13 +76,15 @@ const getProject = async (req, res, next) => {
 };
 
 //@desc DELETE PROJECT
-//@route POST /api/project/id
+//@route POST /api/projects/:id
 //@access private
 const deleteProject = async (req, res, next) => {
   const { id } = req.params;
   try {
-    const project = await Project.destroy({ where: { project_id: id } });
-    if (project !== 0) {
+    const project = await Project.findById(id);
+
+    if (project) {
+      await project.deleteOne();
       res.status(200).json({ message: "Project Deleted" });
     } else {
       res.status(404).json({ error: "Project Not Found" });
