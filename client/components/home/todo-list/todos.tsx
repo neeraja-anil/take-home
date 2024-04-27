@@ -113,6 +113,7 @@ const Todos = ({ todo }: { todo: any }) => {
                 type="checkbox"
                 checked={status}
                 onChange={(e) => toggleTodoCompletion(e)}
+                data-testid="checkbox"
                 className="w-4 h-4 appearance-none rounded-full text-yellow-400 bg-gray-100 border-gray-300 focus:ring-yellow-500 dark:focus:ring-yellow-600 dark:ring-offset-gray-800 focus:ring-2"
               />
               <label className="ml-3 text-md font-medium text-gray-900 dark:text-gray-800">
@@ -135,6 +136,7 @@ const Todos = ({ todo }: { todo: any }) => {
                 size={18}
                 className="cursor-pointer text-red-500 hover:text-gray-600"
                 onClick={toggleDeleteTodo}
+                data-testid="delete-todo"
               />
             </div>
           </div>
