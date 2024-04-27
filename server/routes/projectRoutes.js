@@ -7,6 +7,7 @@ import {
   getAllProjects,
   getProject,
   updateProject,
+  downloadProject,
 } from "../controllers/projectController.js";
 
 const router = express.Router();
@@ -18,5 +19,6 @@ router
   .get(protect, getProject)
   .put(protect, updateProject)
   .delete(protect, deleteProject);
+router.route("/downloadMarkdown").post(protect, downloadProject);
 
 export default router;

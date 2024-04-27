@@ -91,4 +91,39 @@ const deleteProject = async (req, res, next) => {
   }
 };
 
-export { addProject, getAllProjects, getProject, deleteProject, updateProject };
+const downloadProject = async (req, res, next) => {
+  try {
+    const { title, completedTodos, totalTodos, pendingTodos } = req.body;
+
+    const generateTodoList = (todos) => {
+      return todos.map((todo) => `- [ ] ${todo.name}\n`).join("");
+    };
+
+    const markdownContent = `# ${title}
+    
+## Summary:
+${completedTodos.length} / ${totalTodos} completed.
+    
+## Section 1: Pending Todos
+${generateTodoList(pendingTodos)}
+    
+## Section 2: Completed Todos
+${generateTodoList(completedTodos)}
+`;
+
+    res.setHeader("Content-Type", "text/markdown");
+    res.setHeader("Content-Disposition", `attachment; filename="${title}.md"`);
+    res.status(200).send(markdownContent);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export {
+  addProject,
+  getAllProjects,
+  getProject,
+  deleteProject,
+  updateProject,
+  downloadProject,
+};

@@ -81,3 +81,26 @@ export const handleDeleteProject = async (projectId: any) => {
     throw error.response.data;
   }
 };
+
+export const handleDownload = async (data: any) => {
+  try {
+    const response = await api.post(
+      "/projects/downloadMarkdown",
+      data,
+      headerConfig
+    );
+    const blob = new Blob([response.data], {
+      type: "application/octet-stream",
+    });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${data?.title}.md`;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    return response;
+  } catch (error: any) {
+    throw error.response.data;
+  }
+};
