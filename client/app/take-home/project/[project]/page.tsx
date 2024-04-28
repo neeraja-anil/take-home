@@ -70,7 +70,7 @@ const ProjectDetails = () => {
   };
 
   const todoMutation = useMutation({
-    mutationFn: (formData) => handleAddTodo(formData, project?.project_id),
+    mutationFn: (formData) => handleAddTodo(formData, project?.id),
     onSuccess: (data) => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["project"] });
@@ -112,7 +112,7 @@ const ProjectDetails = () => {
       >
         <AddTodo
           toggleTodoForm={toggleAddTodo}
-          projectId={project?.project_id}
+          projectId={project?.id}
           onSubmit={onAddTodo}
         />
       </Modal>

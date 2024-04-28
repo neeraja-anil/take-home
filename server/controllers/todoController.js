@@ -38,10 +38,6 @@ const updateTodo = async (req, res, next) => {
   const { name, status, description } = req.body;
 
   try {
-    if (!name) {
-      res.status(400);
-      throw new Error("please fill all fields");
-    }
     const updatedTodo = await Todo.findOneAndUpdate(
       { _id: id },
       { name, status, description },

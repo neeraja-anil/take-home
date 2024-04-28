@@ -60,7 +60,7 @@ const SideBar = ({ toggleProjectForm }: any) => {
       {menuItems.map((item) => (
         <div
           key={item.name}
-          className={`flex justify-start items-center p-3 mb-2 w-full rounded hover:bg-yellow-500  hover:text-white hover:bg-opacity-75 ${
+          className={`flex justify-start items-center p-3 mb-2 w-full rounded hover:bg-yellow-500  hover:text-white hover:bg-opacity-75 cursor-pointer ${
             menuItemSelected === item.name ? item.className : "text-yellow-700"
           }`}
           onClick={() => onMenuItemClick(item.name)}
