@@ -12,6 +12,10 @@
     "dev": "nodemon server"
   },
   "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./test/setup.js"
+    ],
     "transform": {}
   },
   "author": "",
@@ -22,6 +26,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
+    "mongodb-memory-server": "^9.2.0",
     "mongoose": "^8.3.2",
     "supertest": "^6.3.4"
   },
