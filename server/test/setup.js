@@ -25,3 +25,11 @@ afterAll(async () => {
   }
   await mongoose.connection.close();
 });
+
+describe("MongoDB Test Suite", () => {
+  test("Example test case", () => {
+    // Write your test case here
+    // For example:
+    expect(1 + 2).toBe(3);
+  });
+});

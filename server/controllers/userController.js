@@ -11,10 +11,13 @@ const authUser = async (req, res, next) => {
 
     const user = await User.findOne({ email: email });
 
-    console.log({ user });
+    if (!user) {
+      res.status(404);
+      throw new Error("User not found!");
+    }
 
-    if (user && (await user.matchPassword(password))) {
-      res.status(201).json({
+    if (await user.matchPassword(password)) {
+      res.status(200).json({
         id: user.id,
         name: user.name,
         email: user.email,
@@ -35,6 +38,10 @@ const registerNewUser = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
+    if (!name || !email || !password) {
+      res.status(400);
+      throw new Error("Please add all fields");
+    }
     const userExist = await User.findOne({ email: email });
 
     if (userExist) {
