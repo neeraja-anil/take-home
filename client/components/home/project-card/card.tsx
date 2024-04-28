@@ -63,7 +63,7 @@ export default function ProjectCard({ project, onCardClick }: any) {
   return (
     <div
       className="shadow-lg rounded-lg p-4 cursor-pointer transition-all ease-in-out hover:scale-[1.03] overflow-y-auto"
-      style={{ height: "270px", width: "250px" }}
+      style={{ height: "300px", width: "250px" }}
     >
       <div className="flex justify-between items-center">
         <div className="rounded-tl-lg rounded-tr-lg w-full bg-light hover:bg-primary-alt cursor-pointer">

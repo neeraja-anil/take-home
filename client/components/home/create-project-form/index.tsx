@@ -2,18 +2,25 @@ import api, { headerConfig } from "@/app/utils/axios-config";
 import { ROUTES } from "@/components/utils/constants";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const ProjectForm = ({ toggleProjectForm }: { toggleProjectForm: any }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const [formData, setFormData] = useState<any>({ name: "" });
+  const [user, setUser] = useState<any>();
+
+  useEffect(() => {
+    // Fetch user from localStorage
+    const userString: string | null = localStorage.getItem("user");
+    const userData = userString ? JSON.parse(userString) : null;
+    setUser(userData);
+  }, []);
 
   const handleCreateProject = async () => {
-    const userString: string | null = localStorage.getItem("user");
-    const user = userString ? JSON.parse(userString) : null;
     try {
+      if (!user) return;
       const response = await api.post(
         "/projects/create",
         { ...formData, userId: user.id },
@@ -73,7 +80,7 @@ const ProjectForm = ({ toggleProjectForm }: { toggleProjectForm: any }) => {
             type="submit"
             className="w-50 bg-yellow-500 text-white font-bold py-2 px-4 rounded-lg cursor-pointer hover:bg-yellow-700"
           >
-            Create Project
+            {mutation.isPending ? "Creating..." : "Create Project"}
           </button>
         </div>
       </form>

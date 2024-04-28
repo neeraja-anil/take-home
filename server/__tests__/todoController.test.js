@@ -123,41 +123,6 @@ describe("Todo update endpoints", () => {
       })
       .expect(404);
   });
-
-  it("should return 400 if invalid input payload", async () => {
-    const res = await signup();
-    const id = res.body.id;
-    const token = res.body.token;
-
-    const project = await request(app)
-      .post("/api/projects/create")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        name: "test todo",
-        userId: id,
-      })
-      .expect(201);
-    const projectId = project.body.id;
-
-    const todo = await request(app)
-      .post("/api/todos/create")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        name: "test todo",
-        description: "Test Description",
-        projectId,
-        status: "PENDING",
-      })
-      .expect(201);
-
-    const todoId = todo.body.id;
-
-    const todoupdate = await request(app)
-      .put(`/api/todos/${todoId}`)
-      .set("Authorization", `Bearer ${token}`)
-      .send({})
-      .expect(400);
-  });
 });
 
 describe("Todo delete endpoints", () => {

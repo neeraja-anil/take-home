@@ -28,7 +28,6 @@ export default function LoginPage() {
     },
     onError: (error: any) => {
       toast.error(error.error);
-      console.log(error.error);
     },
   });
 
@@ -121,7 +120,7 @@ export default function LoginPage() {
           <p className="mt-10 text-center text-sm text-gray-500">
             Not a member?{" "}
             <div
-              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
+              className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500 cursor-pointer"
               onClick={() => router.push(UN_AUTH_PAGES.REGISTER)}
             >
               Register Now
