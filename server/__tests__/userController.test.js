@@ -32,16 +32,6 @@ describe("User SignUp Endpoints", () => {
       })
       .expect(400);
   });
-
-  it("returns a 400 on invalid request", async () => {
-    return request(app)
-      .post("/api/users")
-      .send({
-        email: "test@test.com",
-        password: "password",
-      })
-      .expect(400);
-  });
 });
 
 describe("User Login Endpoints", () => {

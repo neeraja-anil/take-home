@@ -53,7 +53,7 @@ const registerNewUser = async (req, res, next) => {
 
     if (user) {
       res.status(201).json({
-        id: user.user._id,
+        id: user._id,
         name: user.name,
         email: user.email,
         token: generateToken(user.user_id),
