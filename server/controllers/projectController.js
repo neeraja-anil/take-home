@@ -6,8 +6,12 @@ import Project from "../models/projectModel.js";
 const addProject = async (req, res, next) => {
   const { name, userId } = req.body;
   try {
+    if (!name || !userId) {
+      res.status(400);
+      throw new Error("Please add all fields");
+    }
     const project = await Project.create({ name, user_id: userId });
-    res.json(project);
+    res.status(201).json(project);
   } catch (error) {
     next(error);
   }
@@ -20,6 +24,10 @@ const updateProject = async (req, res, next) => {
   const { name } = req.body;
 
   try {
+    if (!name) {
+      res.status(400);
+      throw new Error("Please add all fields");
+    }
     const updatedProject = await Project.findByIdAndUpdate(
       id,
       { name },
@@ -42,14 +50,13 @@ const updateProject = async (req, res, next) => {
 const getAllProjects = async (req, res, next) => {
   const { userId } = req.params;
 
-  if (!userId) {
-    res.status(400);
-    throw new Error("User Id Not Found");
-  }
-
   try {
+    if (!userId) {
+      res.status(400);
+      throw new Error("User Id Not Found");
+    }
     const projects = await Project.find({ user_id: userId }).populate("todos");
-    res.json(projects);
+    res.status(200).json(projects);
   } catch (error) {
     next(error);
   }
@@ -62,8 +69,6 @@ const getProject = async (req, res, next) => {
   const { id } = req.params;
   try {
     const project = await Project.findById(id).populate("todos");
-
-    console.log({ project });
 
     if (project) {
       res.status(200).json(project);
@@ -90,6 +95,7 @@ const deleteProject = async (req, res, next) => {
       res.status(404).json({ error: "Project Not Found" });
     }
   } catch (error) {
+    console.log({ error });
     next(error);
   }
 };

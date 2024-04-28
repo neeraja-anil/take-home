@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import connectDB from "./config/db.js";
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 import ProjectRoutes from "./routes/projectRoutes.js";
 import TodoRoutes from "./routes/todoRoutes.js";
@@ -11,7 +10,6 @@ import morgan from "morgan";
 const app = express();
 
 dotenv.config();
-connectDB();
 
 app.use(
   cors({

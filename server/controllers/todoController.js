@@ -14,13 +14,17 @@ const addTodo = async (req, res, next) => {
   };
 
   try {
+    if (!name) {
+      res.status(400);
+      throw new Error("bad request");
+    }
     const todo = await Todo.create(data);
     await Project.findByIdAndUpdate(
       todo.project_id,
       { $addToSet: { todos: todo._id } },
       { new: true }
     );
-    res.json(todo);
+    res.status(201).json(todo);
   } catch (error) {
     next(error);
   }
@@ -34,6 +38,10 @@ const updateTodo = async (req, res, next) => {
   const { name, status, description } = req.body;
 
   try {
+    if (!name) {
+      res.status(400);
+      throw new Error("please fill all fields");
+    }
     const updatedTodo = await Todo.findOneAndUpdate(
       { _id: id },
       { name, status, description },
@@ -42,7 +50,7 @@ const updateTodo = async (req, res, next) => {
     if (updatedTodo) {
       res.status(200).json({ message: "Todo Updated" });
     } else {
-      res.status(500).json({ error: "Todo Not Fouond" });
+      res.status(404).json({ error: "Todo Not Fouond" });
     }
   } catch (error) {
     next(error);
@@ -56,7 +64,6 @@ const deleteTodo = async (req, res, next) => {
   const { id } = req.params;
   try {
     const todo = await Todo.deleteOne({ _id: id });
-    console.log({ todo });
     if (todo?.deletedCount === 1) {
       res.status(200).json({ message: "Todo Deleted" });
     } else {
